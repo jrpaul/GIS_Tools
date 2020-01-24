@@ -26,7 +26,7 @@ inGDB = arcpy.GetParameterAsText(0) #geodatabase with features
 arcpy.env.workspace = inGDB
 arcpy.env.overwriteOutput = True
 
-fclist = arcpy.ListFeatureClasses("*", "polygon")
+fclist = [ftr for ftr in arcpy.ListFeatureClasses("*", "polygon") if not fc.endswith('_outline')]
 
 # Find the total count of shapefiles in list
 fc_count = len(fclist)
@@ -44,6 +44,7 @@ for fc in fclist:
     # Check if outline exists, if exists, delete
     if arcpy.Exists(parcelOutline):
         arcpy.AddMessage("{0} exists, not generating outline.".format(fc))
+        completeCount = completeCount + 1
     else:
         # Use aggregate polygons within 5 meters of each other
         arcpy.AggregatePolygons_cartography(fc, parcelOutline, 5)
