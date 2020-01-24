@@ -26,7 +26,7 @@ inGDB = arcpy.GetParameterAsText(0) #geodatabase with features
 arcpy.env.workspace = inGDB
 arcpy.env.overwriteOutput = True
 
-fclist = [ftr for ftr in arcpy.ListFeatureClasses("*", "polygon") if not fc.endswith('_outline')]
+fclist = [ftr for ftr in arcpy.ListFeatureClasses("*", "polygon") if not ftr.endswith('_outline')]
 
 # Find the total count of shapefiles in list
 fc_count = len(fclist)
