@@ -8,4 +8,4 @@ This is an ArcGIS Pro geoprocessing script to quickly merge parcels within 5 met
 
 
 **List Raster Files.py**
-This is an ArcGIS Pro geoprocessing script allows the creation of a text file that list all rasters in a workspace. The projected coordinate system is also listed for each file. 
+This geoprocessing script allows the creation of a text file that list all rasters in a workspace. The projected coordinate system is also listed for each file. 
