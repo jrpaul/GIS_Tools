@@ -41,6 +41,8 @@ outTXT = datetime.datetime.now().strftime("C:\Temp\LayoutPlans_Report_%d%m%Y.txt
 # outputTXT = open("C:\Temp\LayoutParcels_Report.txt", 'w')
 
 with open(outTXT, 'w') as txtfile:
+    txtfile.write("geolayout_name" + ", " + "coordsys" + "\n")
+
     for rst in rsts:
         #Get names of all rasters
         desc = arcpy.Describe(rst)
