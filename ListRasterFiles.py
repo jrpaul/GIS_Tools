@@ -27,7 +27,7 @@ arcpy.env.overwriteOutput = True
 
 arcpy.AddMessage("Searching the folder now...")
 
-rsts = arcpy.ListRasters("*", "TIF")
+rsts = arcpy.ListRasters()
 
 rstcount = len(rsts)
 
