@@ -2,13 +2,13 @@
 Find_Layouts.py
 
 Description:
-Located layouts (geo-tiffs) in multiple directories.
+Located layouts (geo-tiffs) in multiple directories
 
 Input:
-1) A geodatabase or folder holding geo-tiffs.
+1) A geodatabase or folder holding geo-tiffs
 
 Output:
-1) List of layouts.
+1) List of layouts
 
 Version 0.1
 Created by: Juel Paul/Land Analytical
@@ -23,17 +23,22 @@ import os
 inFLD = arcpy.GetParameterAsText(0)
 
 # Set workspace and environment variables
-arcpy.env.workspace = inGDB
+arcpy.env.workspace = inFLD
 arcpy.env.overwriteOutput = True
 
 geolayouts = []
-for dirpath, dirnames, filenames in arcpy.da.Walk(in_workspace, datatype="RasterDataset",type="TIF"):
+
+for dirpath, dirnames, filenames in arcpy.da.Walk(inFLD, datatype="RasterDataset",type="TIF"):
     for filename in filenames:
         geolayouts.append(os.path.join(dirpath, filename))
 
 layout_count = len(geolayouts)
 
-outTXT = datetime.datetime.now().strftime("C:\Temp\All_GeoLayouts_Report_%d%m%Y.txt")
+arcpy.AddMessage("There are {0} layouts in '{1}'.".format(layout_count, inFLD))
+
+Current_Date = datetime.datetime.today().strftime ('%d-%b-%Y')
+
+outTXT = datetime.datetime.now().strftime("C:\Temp\All_GeoLayouts_Report_%d-%m-%Y.txt")
 
 with open(outTXT, 'w') as txtfile:
     txtfile.write("geolayout_name" + ", " + "coordsys" + "\n")
@@ -41,7 +46,11 @@ with open(outTXT, 'w') as txtfile:
     # Loop through the geolayout list and write layout name and project coord to txt file
     for layout in geolayouts:
         geolayout_name = os.path.basename(layout) # Extract only the layout basename
-        spatial_ref = os.path.spatialReference(layout)
-        coords_psc = spatial_ref.PCSName(layout)
+        desc = arcpy.Describe(layout)
+        spatial_ref = desc.spatialReference
+        coords_psc = spatial_ref.PCSName
         
         txtfile.write(geolayout_name + ", " + coords_psc + "\n")
+
+top_directory = os.path.basename(inFLD)
+rename_txt = os.rename(outTXT, os.path.join("All_GeoLayouts_Report_" + top_directory + Current_Date + ".txt"))
