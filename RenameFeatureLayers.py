@@ -2,7 +2,7 @@
 Rename Feature Layers.py
 
 Description:
-Renames feature classes or shapefiles in a given directory/subdirectory using a user entered character string.
+Renames feature classes or shapefiles in a given directory using a user entered character string.
 
 Input:
 1) A geodatabase or folder holding feature classes or shapefiles.
@@ -28,14 +28,14 @@ user_string = arcpy.GetParameterAsText(1)
 arcpy.env.workspace = inGDB
 arcpy.env.overwriteOutput = True
 
-fc_list = arcpy.ListFeatureClasses(feature_type='Polygon')
+fc_list = arcpy.ListFeatureClasses(feature_type = 'Polygon')
+
 for fc in fc_list:
     desc = arcpy.Describe(fc)
     ftr_name = desc.Name
-    out_filename = ftr_name.split(user_string)[-1]
-    arcpy.Rename_management(ftr_name, out_filename)
-    arcpy.AddMessage("This is name: '{0}'".format(name))
-        #arcpy.Rename_management(fc, out_filename)
-        #arcpy.AddMessage("Renamed '{0}' to '{1}'".format(fc, name))
-        #else:
-            #arcpy.AddMessage("String '{0}' not found in '{1}'".format(user_string, filename))
+    if user_string in ftr_name:
+        out_filename = ftr_name.split(user_string)[-1]
+        arcpy.Rename_management(ftr_name, out_filename)
+        arcpy.AddMessage("This is name: '{0}' and '{1}'".format(ftr_name, out_filename))
+    else:
+        arcpy.AddMessage("User string not present for '{0}'".format(ftr_name))
