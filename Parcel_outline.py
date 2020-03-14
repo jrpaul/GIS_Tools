@@ -2,7 +2,7 @@
 Parcel_outline.py
 
 Description:
-This scripts generates outlines of parcel polygons. Parcels within 5 meters of each other will be aggregated to create the final polygon.
+This scripts generates outlines of parcel polygons. Parcels within 5 meters of each other will be aggregated to create the final polygon. Copies two attribute field values to the outline layer.
 
 Input:
 1) A geodatabase holding feature classes.
@@ -10,7 +10,7 @@ Input:
 Output:
 1) A polygon outline of all merged parcels. The outline polygon has "_outline" in the name.
 
-Version 0.1
+Version 0.2
 Created by: Juel Paul/Land Analytical
 Date:  January 16, 2020
 --------------------------------------------------------------------------------"""
@@ -34,6 +34,9 @@ fc_count = len(fclist)
 # Set the progressor
 arcpy.SetProgressor("step", "Generating outlines...", 0, fc_count, 1)
 
+# Field names list
+fcnames = ['LayoutNo', 'Hyperlink']
+
 # Count number of outlines complete
 completeCount = 0
 
@@ -48,6 +51,26 @@ for fc in fclist:
     else:
         # Use aggregate polygons within 5 meters of each other
         arcpy.AggregatePolygons_cartography(fc, parcelOutline, 5)
+
+        # Add reference no, hyperlink and layout no fields
+        arcpy.management.AddFields(parcelOutline, [['LayoutNo', 'TEXT', 'LayoutNo', 20, '', ''], ['Hyperlink', 'TEXT', 'Hyperlink', 150, '', '']])
+
+        # Extract layout no and url from fc
+        with arcpy.da.SearchCursor(fc, fcnames) as scursor:
+            for row in scursor:
+                if row[0] is None:
+                    continue
+                else:
+                    layout = row[0]
+                    url = row[1]
+
+        # Update outline fields with values from fc
+        with arcpy.da.UpdateCursor(parcelOutline, fcnames) as ucursor:
+            for row in ucursor:
+                row[0] = layout
+                row[1] = url
+                ucursor.updateRow(row)
+            arcpy.AddMessage("Outline updated.")
 
         # Update the progressor label for current feature class
         arcpy.SetProgressorLabel("Merged {0}...".format(fc))
