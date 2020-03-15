@@ -42,15 +42,15 @@ outTXT = datetime.datetime.now().strftime("C:\Temp\All_GeoLayouts_Report_%d-%m-%
 
 with open(outTXT, 'w') as txtfile:
     txtfile.write("geolayout_name" + ", " + "coordsys" + "\n")
-    
+
     # Loop through the geolayout list and write layout name and project coord to txt file
     for layout in geolayouts:
         geolayout_name = os.path.basename(layout) # Extract only the layout basename
         desc = arcpy.Describe(layout)
         spatial_ref = desc.spatialReference
         coords_psc = spatial_ref.PCSName
-        
+
         txtfile.write(geolayout_name + ", " + coords_psc + "\n")
 
-top_directory = os.path.basename(inFLD)
-rename_txt = os.rename(outTXT, os.path.join("All_GeoLayouts_Report_" + top_directory + Current_Date + ".txt"))
+#top_directory = os.path.basename(inFLD)
+#rename_txt = os.rename(outTXT, os.path.join("All_GeoLayouts_Report_" + top_directory + Current_Date + ".txt"))
