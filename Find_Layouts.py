@@ -2,13 +2,13 @@
 Find_Layouts.py
 
 Description:
-Located layouts (geo-tiffs) in multiple directories
+Locate layouts (geo-tiffs) in multiple directories
 
 Input:
 1) A geodatabase or folder holding geo-tiffs
 
 Output:
-1) List of layouts
+1) A text file that lists the layout name, coordinate system name (psc)
 
 Version 0.1
 Created by: Juel Paul/Land Analytical
