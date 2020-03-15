@@ -13,4 +13,4 @@ This geoprocessing script allows the creation of a text file that list all raste
 Creates a text file which list the name, projected coordinate system and number of records found in polygon feature class. Workspace is set to be a geodatabase. Location of outfile is hardcoded.
 
 **StandardiseFields_Layouts.py**
-Checks a polygon features in geodatabase and renames non-standard fields.
+Checks all polygon features in geodatabase and renames non-standard fields.
