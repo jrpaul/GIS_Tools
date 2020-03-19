@@ -2,7 +2,7 @@
 StandardizeFieldNames_Layouts.py
 
 Description:
-Rename fields to fit standards and add Adjusted X and Adjusted Y fields
+Rename fields to fit standards
 
 Input:
 1) A geodatabase or folder holding polygon layers
