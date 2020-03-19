@@ -46,7 +46,7 @@ for fc in fclist:
 
     # Check if outline exists, if exists, delete
     if arcpy.Exists(parcelOutline):
-        arcpy.AddMessage("{0} exists, not generating outline.".format(fc))
+        arcpy.AddMessage("{0} outline already exists.".format(fc))
         completeCount = completeCount + 1
     else:
         # Use aggregate polygons within 5 meters of each other
