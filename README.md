@@ -14,5 +14,5 @@ Creates a text file which list the name, projected coordinate system and number 
 
 **RenameFeatureLayers.py** Removes user entered string from feature name.
 
-**StandardiseFields_Layouts.py**
+**StandardiseFieldNames_Layouts.py**
 Checks all polygon features in geodatabase and renames non-standard fields.
