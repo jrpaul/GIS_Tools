@@ -1,10 +1,10 @@
-# Script Name: ListLayoutParcelsv2.py
-# Description: 
+# Script Name: ListLayoutParcels.py
+# Description:
 #
 # Inputs: 1) A geodatabase containing parcels feature classes  2)  Directory to save text dump of gdb
 #
-# Outputs: 1) A text file that lists the parcel name, coordinate system name and parcel count for each feature class. 
-# 
+# Outputs: 1) A text file that lists the parcel name, coordinate system name and parcel count for each feature class.
+#
 # Version 0.2
 # Created by: Juel Paul
 # Date: 12th January 2020
@@ -40,8 +40,8 @@ outTXT = datetime.datetime.now().strftime("C:\Temp\ParcelCount_Report_%d%m%Y.txt
 
 with open(outTXT, 'w') as txtfile:
     txtfile.write("layout_name" + ", " + "coordsys" + ", " + "num_parcels" + "\n")
-    
-    
+
+
     for fc in ftcls:
         #Get names of all feature classes
         desc = arcpy.Describe(fc)
