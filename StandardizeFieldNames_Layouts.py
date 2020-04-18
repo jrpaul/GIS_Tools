@@ -59,5 +59,5 @@ for dirpath, dirnames, filenames in arcpy.da.Walk(inGDB, datatype="FeatureClass"
                     arcpy.SetProgressorPosition() # Update the progressor position
             	else:
                     continue
-                    arcpy.AddMessage("{0} is not in {1}.".format(field_name, ftr))
+                    arcpy.AddMessage("No fields to update in {1}.".format(ftr))
                     arcpy.SetProgressorPosition()
