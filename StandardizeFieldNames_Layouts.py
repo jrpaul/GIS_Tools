@@ -27,10 +27,11 @@ arcpy.env.workspace = inGDB
 arcpy.env.overwriteOutput = True
 
 namesDict = {
-    "Layout No" : "LayoutNo",
+    "Layout_No" : "LayoutNo",
     "IndexID" : "LayoutNo",
-    "Application Reference No" : "ApplicationReferenceNo",
+    "Application_Reference_No" : "ApplicationReferenceNo",
     "Applicatio" : "ApplicationReferenceNo",
+    "Applicat" : "ApplicationReferenceNo",
     "SiteArea_M" : "SiteArea_M2",
     "SiteArea_H" : "SiteArea_HA",
     "SiteArea_S" : "SiteArea_SF",
@@ -49,6 +50,9 @@ arcpy.AddMessage("{0} layout parcels in this workspace.".format(fcCount))
 
 ftrs = []
 
+# Set the progressor
+arcpy.SetProgressor("step", "Renaming fields...", 0, fcCount, 1)
+
 # Walk GDB and list all polygon features
 for dirpath, dirnames, filenames in arcpy.da.Walk(inGDB, datatype="FeatureClass", type="Polygon"):
     for filename in filenames:
@@ -59,6 +63,8 @@ for dirpath, dirnames, filenames in arcpy.da.Walk(inGDB, datatype="FeatureClass"
             	if field_name in namesDict: # If field is in dict, rename field
             		arcpy.AlterField_management(ftr, field_name, namesDict[field_name])
             		arcpy.AddMessage("{0} is in {1}. Renaming now...".format(field_name, ftr))
+                    arcpy.SetProgressorPosition() # Update the progressor position
             	else:
             		continue
             		arcpy.AddMessage("{0} is not in {1}.".format(field_name, ftr))
+                    arcpy.SetProgressorPosition()
