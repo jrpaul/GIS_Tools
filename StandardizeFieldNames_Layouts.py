@@ -52,12 +52,12 @@ for dirpath, dirnames, filenames in arcpy.da.Walk(inGDB, datatype="FeatureClass"
         arcpy.SetProgressor("step", "Renaming fields...", 0, ftrCount, 1) # Set the progressor
         for ftr in ftrs: # Pass qualified ftrs to list fields
             field_names = [f.name for f in arcpy.ListFields(ftr)]
+            desc = arcpy.Describe(os.path.join(dirpath, filename))
             for field_name in field_names: # Check if listed fields are in name dict
             	if field_name in namesDict: # If field is in dict, rename field
                     arcpy.AlterField_management(ftr, field_name, namesDict[field_name])
-                    arcpy.AddMessage("{0} is in {1}. Renaming now...".format(field_name, ftr))
-                    arcpy.SetProgressorPosition() # Update the progressor position
+                    arcpy.AddMessage("{0} is in {1}. Renaming now...".format(field_name, desc.baseName))
             	else:
                     continue
                     arcpy.AddMessage("No fields to update in {1}.".format(ftr))
-                    arcpy.SetProgressorPosition()
+                arcpy.SetProgressorPosition()
