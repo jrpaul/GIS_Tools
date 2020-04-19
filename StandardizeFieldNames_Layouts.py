@@ -43,21 +43,24 @@ namesDict = {
 arcpy.AddMessage("Searching the folder now...")
 
 ftrs = []
+completeCount = 0
 
 # Walk GDB and list all polygon features
 for dirpath, dirnames, filenames in arcpy.da.Walk(inGDB, datatype="FeatureClass", type="Polygon"):
     for filename in filenames:
         ftrs.append(os.path.join(dirpath, filename))
         ftrCount = len(ftrs)
-        arcpy.SetProgressor("step", "Renaming fields...", 0, ftrCount, 1) # Set the progressor
-        for ftr in ftrs: # Pass qualified ftrs to list fields
-            field_names = [f.name for f in arcpy.ListFields(ftr)]
-            desc = arcpy.Describe(os.path.join(dirpath, filename))
-            for field_name in field_names: # Check if listed fields are in name dict
-            	if field_name in namesDict: # If field is in dict, rename field
-                    arcpy.AlterField_management(ftr, field_name, namesDict[field_name])
-                    arcpy.AddMessage("{0} is in {1}. Renaming now...".format(field_name, desc.baseName))
-            	else:
-                    continue
-                    arcpy.AddMessage("No fields to update in {1}.".format(ftr))
-                arcpy.SetProgressorPosition()
+
+for ftr in ftrs:# Pass qualified ftrs to list fields
+    field_names = [f.name for f in arcpy.ListFields(ftr)]
+    # Check if listed fields are in name dict
+    for field_name in field_names:
+        # If field is in dict, rename field
+        if field_name in namesDict:
+            arcpy.AlterField_management(ftr, field_name, namesDict[field_name], "", "", "", "", "TRUE")
+            arcpy.AddMessage("{0} is in {1}. Renaming now...".format(field_name, ftr))
+            completeCount =+1
+        else:
+            arcpy.AddMessage("{0} in {1} does not need renaming.".format(field_name, ftr))
+
+arcpy.AddMessage("{0} fields updated.").format(completeCount)
