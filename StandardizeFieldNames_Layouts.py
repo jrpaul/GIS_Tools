@@ -43,7 +43,8 @@ namesDict = {
 arcpy.AddMessage("Searching the folder now...")
 
 ftrs = []
-completeCount = 0
+checkCount = 0
+fixedCount = 0
 
 # Walk GDB and list all polygon features
 for dirpath, dirnames, filenames in arcpy.da.Walk(inGDB, datatype="FeatureClass", type="Polygon"):
@@ -59,9 +60,9 @@ for ftr in ftrs:# Pass qualified ftrs to list fields
         if field_name in namesDict:
             arcpy.AlterField_management(ftr, field_name, namesDict[field_name], "", "", "", "", "TRUE")
             arcpy.AddMessage("{0} is in {1}. Renaming now...".format(field_name, ftr))
-            completeCount = completeCount + 1
+            fixedCount = fixedCount + 1
         else:
             arcpy.AddMessage("{0} in {1} does not need renaming.".format(field_name, ftr))
-            completeCount = completeCount + 1
+            checkCount = checkCount + 1
 
-arcpy.AddMessage("{0} fields updated.".format(completeCount))
+arcpy.AddMessage("{0} fields checked and {1} fields renamed.".format(checkCount, fixedCount))
