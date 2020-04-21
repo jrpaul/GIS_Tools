@@ -59,8 +59,9 @@ for ftr in ftrs:# Pass qualified ftrs to list fields
         if field_name in namesDict:
             arcpy.AlterField_management(ftr, field_name, namesDict[field_name], "", "", "", "", "TRUE")
             arcpy.AddMessage("{0} is in {1}. Renaming now...".format(field_name, ftr))
-            completeCount =+1
+            completeCount = completeCount + 1
         else:
             arcpy.AddMessage("{0} in {1} does not need renaming.".format(field_name, ftr))
+            completeCount = completeCount + 1
 
 arcpy.AddMessage("{0} fields updated.").format(completeCount)
