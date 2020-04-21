@@ -64,4 +64,4 @@ for ftr in ftrs:# Pass qualified ftrs to list fields
             arcpy.AddMessage("{0} in {1} does not need renaming.".format(field_name, ftr))
             completeCount = completeCount + 1
 
-arcpy.AddMessage("{0} fields updated.").format(completeCount)
+arcpy.AddMessage("{0} fields updated.".format(completeCount))
