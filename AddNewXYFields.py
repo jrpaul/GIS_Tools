@@ -31,16 +31,16 @@ fcList = arcpy.ListFeatureClasses("*", "point")
 
 fcCount = len(fcList)
 
-arcpy.AddMessage("{0} application points in this geodatabase.".format(fcCount))
+arcpy.AddMessage("{0} application points layers in this geodatabase.".format(fcCount))
 
 # Use list to add fields and calculate XY
 for fc in fcList:
     arcpy.management.AddFields(
-    fc, 
-    [['New_X', 'DOUBLE', 'New X'],
-    ['New_Y', 'DOUBLE', 'New Y']])
+    fc,
+    [['Updated_X', 'DOUBLE', 'Updated X'],
+    ['Updated_Y', 'DOUBLE', 'Updated Y']])
 
     arcpy.CalculateGeometryAttributes_management(fc,
-        [["New_X", "POINT_X"], ["New_Y", "POINT_Y"]])
+        [["Updated_X", "POINT_X"], ["Updated_Y", "POINT_Y"]])
 
     arcpy.AddMessage("Fields added and geometry calulated for {0}".format(fc))
