@@ -50,10 +50,14 @@ with open(outTXT, 'w') as txtfile:
 
     # Loop through the parcel list and write parcel name to txt file
     for parcel in parcels:
-        with arcpy.da.SearchCursor(parcel, parcelFields) as scursor:
-            desc = arcpy.Describe(parcel)
-            for row in scursor:
-                if (row[0] is None) or (row[1] is None):
-                    txtfile.write(desc.baseName + ", " + "has nulls" + "\n")
-                    arcpy.SetProgressorPosition()
+        try:
+            with arcpy.da.SearchCursor(parcel, parcelFields) as scursor:
+                desc = arcpy.Describe(parcel)
+                for row in scursor:
+                    if (row[0] is None) or (row[1] is None):
+                        txtfile.write(desc.baseName + ", " + "has nulls" + "\n")
+                        arcpy.SetProgressorPosition()
                     break
+        except:
+            txtfile.write(desc.baseName + " " + "does not have specified fields." + "\n")
+            arcpy.SetProgressorPosition()
