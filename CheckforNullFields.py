@@ -40,7 +40,7 @@ Current_Date = datetime.datetime.today().strftime ('%d-%b-%Y')
 
 outTXT = datetime.datetime.now().strftime("C:\Temp\Parcel_Null_Fields_Report_%d-%m-%Y.txt")
 
-parcelFields = ['ApplicationReferenceNo', 'LayoutNo']
+parcelFields = ['ApplicationReferenceNo', 'LayoutNo', 'Hyperlink']
 
 # Set the progressor
 arcpy.SetProgressor("step", "Checking fields...", 0, parcel_count, 1)
@@ -54,7 +54,7 @@ with open(outTXT, 'w') as txtfile:
             with arcpy.da.SearchCursor(parcel, parcelFields) as scursor:
                 desc = arcpy.Describe(parcel)
                 for row in scursor:
-                    if (row[0] is None) or (row[1] is None):
+                    if (row[0] is None) or (row[1] is None) or (row[2] is None):
                         txtfile.write(desc.baseName + ", " + "has nulls" + "\n")
                         arcpy.SetProgressorPosition()
                     break
