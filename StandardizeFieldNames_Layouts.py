@@ -32,6 +32,8 @@ namesDict = {
     "Application_Reference_No" : "ApplicationReferenceNo",
     "Applicatio" : "ApplicationReferenceNo",
     "Applicat" : "ApplicationReferenceNo",
+    "ApplicationNumber" : "ApplicationReferenceNo",
+    "FieldApplicationNumber" : "ApplicationReferenceNo",
     "SiteArea_M" : "SiteArea_M2",
     "SiteArea_H" : "SiteArea_HA",
     "SiteArea_S" : "SiteArea_SF",
