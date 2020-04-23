@@ -35,7 +35,7 @@ fc_count = len(fclist)
 arcpy.SetProgressor("step", "Generating outlines...", 0, fc_count, 1)
 
 # Field names list
-fcnames = ['LayoutNo', 'Hyperlink']
+fcnames = ['LayoutNo', 'Hyperlink', 'ApplicationReferenceNo']
 
 # Count number of outlines complete
 completeCount = 0
@@ -53,7 +53,7 @@ for fc in fclist:
         arcpy.AggregatePolygons_cartography(fc, parcelOutline, 5)
 
         # Add reference no, hyperlink and layout no fields
-        arcpy.management.AddFields(parcelOutline, [['LayoutNo', 'TEXT', 'LayoutNo', 20, '', ''], ['Hyperlink', 'TEXT', 'Hyperlink', 150, '', '']])
+        arcpy.management.AddFields(parcelOutline, [['LayoutNo', 'TEXT', 'LayoutNo', 20, '', ''], ['Hyperlink', 'TEXT', 'Hyperlink', 150, '', ''], ['ApplicationReferenceNo', 'TEXT', 'Application Reference No', 12, '', '']])
 
         # Extract layout no and url from fc
         with arcpy.da.SearchCursor(fc, fcnames) as scursor:
@@ -63,12 +63,14 @@ for fc in fclist:
                 else:
                     layout = row[0]
                     url = row[1]
+                    referenceno = row[2]
 
         # Update outline fields with values from fc
         with arcpy.da.UpdateCursor(parcelOutline, fcnames) as ucursor:
             for row in ucursor:
                 row[0] = layout
                 row[1] = url
+                row[2] = referenceno
                 ucursor.updateRow(row)
             arcpy.AddMessage("Outline updated.")
 
