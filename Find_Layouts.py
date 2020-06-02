@@ -28,7 +28,7 @@ arcpy.env.overwriteOutput = True
 
 geolayouts = []
 
-for dirpath, dirnames, filenames in arcpy.da.Walk(inFLD, datatype="RasterDataset",type="TIF"):
+for dirpath, dirnames, filenames in arcpy.da.Walk(inFLD, datatype="RasterDataset"):
     for filename in filenames:
         geolayouts.append(os.path.join(dirpath, filename))
 
