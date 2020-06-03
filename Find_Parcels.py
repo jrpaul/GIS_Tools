@@ -8,7 +8,7 @@ Input:
 1) A geodatabase or folder holding with parcels
 
 Output:
-1) A text file that lists the parcel name, coordinate system name and parcel count for each feature class. 
+1) A text file that lists the parcel name, coordinate system name and parcel count for each feature class.
 
 Version 0.1
 Created by: Juel Paul/Land Analytical
@@ -42,19 +42,21 @@ outTXT = datetime.datetime.now().strftime("C:\Temp\All_Parcels_Report_%d-%m-%Y.t
 
 with open(outTXT, 'w') as txtfile:
     txtfile.write("layout_name" + ", " + "coordsys" + ", " + "num_parcels" + "\n")
-      
+
     for parcel in parcels:
-        parcel_name =  os.path.basename(parcel) # Extract only the parcel basename
-        desc = arcpy.Describe(parcel)
+        try:
+            parcel_name =  os.path.basename(parcel) # Extract only the parcel basename
+            desc = arcpy.Describe(parcel)
 
-        #Get spatial reference of each
-        spatial_ref = desc.spatialReference
-        coords_psc = spatial_ref.PCSName
-        #coords_gsc = spatial_ref.GCSName
+            #Get spatial reference of each
+            spatial_ref = desc.spatialReference
+            coords_psc = spatial_ref.PCSName
+            #coords_gsc = spatial_ref.GCSName
 
-        #Get number of rows in feature class
-        feature_count = arcpy.GetCount_management(parcel).getOutput(0)
+            #Get number of rows in feature class
+            feature_count = arcpy.GetCount_management(parcel).getOutput(0)
 
-        #arcpy.AddMessage(parcel_name + "," + coords_psc + " " + coords_gsc + "," + parcel_count)
-        txtfile.write(parcel_name + ", " + coords_psc + ", " + feature_count + "\n")
-
+            #arcpy.AddMessage(parcel_name + "," + coords_psc + " " + coords_gsc + "," + parcel_count)
+            txtfile.write(parcel_name + ", " + coords_psc + ", " + feature_count + "\n")
+        except:
+            txtfile.write(parcel_name + " " + "has a problem." + "\n")
