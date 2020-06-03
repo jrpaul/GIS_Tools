@@ -45,12 +45,14 @@ with open(outTXT, 'w') as txtfile:
 
     # Loop through the geolayout list and write layout name and project coord to txt file
     for layout in geolayouts:
-        geolayout_name = os.path.basename(layout) # Extract only the layout basename
-        desc = arcpy.Describe(layout)
-        spatial_ref = desc.spatialReference
-        coords_psc = spatial_ref.PCSName
-
-        txtfile.write(geolayout_name + ", " + coords_psc + "\n")
+        try:
+            geolayout_name = os.path.basename(layout) # Extract only the layout basename
+            desc = arcpy.Describe(layout)
+            spatial_ref = desc.spatialReference
+            coords_psc = spatial_ref.PCSName
+            txtfile.write(geolayout_name + ", " + coords_psc + "\n")
+        except:
+            txtfile.write(desc.baseName + " " + "has a problem." + "\n")
 
 #top_directory = os.path.basename(inFLD)
 #rename_txt = os.rename(outTXT, os.path.join("All_GeoLayouts_Report_" + top_directory + Current_Date + ".txt"))
