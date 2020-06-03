@@ -50,7 +50,7 @@ with open(outTXT, 'w') as txtfile:
             desc = arcpy.Describe(layout)
             spatial_ref = desc.spatialReference
             coords_psc = spatial_ref.PCSName
-            txtfile.write(geolayout_name + ", " + coords_psc + "\n")
+            txtfile.write(desc.baseName + ", " + coords_psc + "\n")
         except:
             txtfile.write(desc.baseName + " " + "has a problem." + "\n")
 
