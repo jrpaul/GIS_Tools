@@ -17,6 +17,9 @@ Creates a text file which list the name, projected coordinate system and number 
 **StandardiseFieldNames_Layouts.py**
 Checks all polygon features in geodatabase and renames non-standard fields.
 
+**StandardiseFieldNames_Applications.py**
+Checks all point features in geodatabase and renames non-standard fields.
+
 **AddNewXYFields.py**
 Adds two DOUBLE fields to feature class and calculates POINT_X and POINT_Y.
 
