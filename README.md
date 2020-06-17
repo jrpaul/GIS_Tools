@@ -27,4 +27,4 @@ Adds two DOUBLE fields to feature class and calculates POINT_X and POINT_Y.
 Checks features classes for empty or null fields. 
 
 **CreateAreaDomainsSubtypes.py** and **CreateAppFilesDomains.py**
-Creates domains and subtypes on app file geodatabases
+Creates domains and subtypes on file geodatabases.
