@@ -63,7 +63,9 @@ namesDict = {
     "Full_URL" : "FullURL",
     "Update_Ful" : "UpdateFullApplicationURL",
     "Transform_" : "Transform_X",
-    "Transform1" : "Transform_Y" 
+    "Transform1" : "Transform_Y",
+    "TRANSFORM_" : "Transform_X",
+    "TRANSFORM1" : "Transform_Y" 
     }
 
 arcpy.AddMessage("Searching the folder now...")
