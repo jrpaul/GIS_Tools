@@ -27,11 +27,13 @@ arcpy.env.workspace = inGDB
 arcpy.env.overwriteOutput = True
 
 decisionDict = {
-	"A" : "A",
-	"R" : "R",
-	"RU" : "RU",
-	"U" : "U",
-	"W" : "W"
+	"A" : "Approved",
+	"R" : "Refused",
+	"RU" : "Returned Undetermined",
+	"U" : "Undetermined",
+	"W" : "Withdrawn",
+	"P" : "Permitted",
+	"L" : "Permission not required"
 }
 
 landuseDict = {
@@ -85,8 +87,9 @@ policyDict = {
 }
 
 submitTypeDict = {
-	"FULL" : "FULL",
-	"OUTLINE" : "OUTLINE"
+	"FULL" : "Full application",
+	"OUTLINE" : "Outline application",
+	"STATUS" : "Status of Land/Stamp Duty"
 }
 
 devCategoryDict = {
@@ -119,13 +122,17 @@ settlementAreaDict = {
 	"N" : "N",
 	"O" : "O",
 	"P" : "P",
-	"Q" : "Q"
+	"Q" : "Q",
+	"R" : "R",
+	"S" : "S",
+	"T" : "T"
 }
 
 regionalOfficeDict = {
 	"NRO" : "North Regional Office",
 	"SRO" : "South Regional Office",
-	"ERO" : "Eastern Regional Office"
+	"ERO" : "Eastern Regional Office",
+	"TRO" : "Tobago Regional Office"
 }
 
 arcpy.AddMessage("Searching the workspace now...")
@@ -145,20 +152,20 @@ try:
     # Add values from Decision dict to domain
     for code in decisionDict:
         arcpy.AddCodedValueToDomain_management(inGDB, decisionDomain, code, decisionDict[code])
-    
+
     arcpy.AddMessage("Decision domain created.")
 
 except:
 	arcpy.AddMessage("Decision domain was not created.")
 
-try:    
+try:
     # Create Landuse domain
     arcpy.CreateDomain_management(inGDB, "Landuse", "Valid landuse types", "TEXT", "CODED")
     landuseDomain = "Landuse"
     # Add values from Landuse dict to domain
     for code in landuseDict:
         arcpy.AddCodedValueToDomain_management(inGDB, landuseDomain, code, landuseDict[code])
-    
+
     arcpy.AddMessage("Landuse domain created.")
 
 except:
@@ -171,7 +178,7 @@ try:
     # Add values from submitType dict to domain
     for code in submitTypeDict:
         arcpy.AddCodedValueToDomain_management(inGDB, submissionDomain, code, submitTypeDict[code])
-    
+
     arcpy.AddMessage("Submission Type domain created")
 
 except:
@@ -184,7 +191,7 @@ try:
     # Add values from devCategory dict to domain
     for code in devCategoryDict:
         arcpy.AddCodedValueToDomain_management(inGDB, developmentDomain, code, devCategoryDict[code])
-    
+
     arcpy.AddMessage("Development Category type domain created.")
 
 except:
@@ -197,7 +204,7 @@ try:
     # Add values from settlementArea dict to domain
     for code in settlementAreaDict:
         arcpy.AddCodedValueToDomain_management(inGDB, settlementDomain, code, settlementAreaDict[code])
-    
+
     arcpy.AddMessage("Settlement area domain created.")
 
 except:
@@ -210,7 +217,7 @@ try:
     # Add values from regionalOffice dict to domain
     for code in regionalOfficeDict:
         arcpy.AddCodedValueToDomain_management(inGDB, regofficeDomain, code, regionalOfficeDict[code])
-    
+
     arcpy.AddMessage("Regional Office domain created.")
 
 except:
@@ -220,27 +227,27 @@ try:
     for fc in fcList:
         # Assign domains to fields
         arcpy.AssignDomainToField_management(fc, "Decision", decisionDomain)
-        
+
         arcpy.AddMessage("Domian applied to Decision field.")
 
         arcpy.AssignDomainToField_management(fc, "PlannedLanduse", landuseDomain)
-        
+
         arcpy.AddMessage("Domian applied to Landuse field.")
 
         arcpy.AssignDomainToField_management(fc, "SubmissionType", submissionDomain)
-        
+
         arcpy.AddMessage("Domian applied to Submission type field.")
 
         arcpy.AssignDomainToField_management(fc, "DevelopmentCategory", developmentDomain)
-        
+
         arcpy.AddMessage("Domian applied to Development type field.")
 
         arcpy.AssignDomainToField_management(fc, "SettlementArea", settlementDomain)
-        
+
         arcpy.AddMessage("Domian applied to Settlement area field.")
 
         arcpy.AssignDomainToField_management(fc, "RegionalOffice", regofficeDomain)
-        
+
         arcpy.AddMessage("Domian applied to Regional office field.")
 except:
     arcpy.AddMessage("Domain was not assigned to field in {0}.".format(fc))
