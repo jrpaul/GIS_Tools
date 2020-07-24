@@ -35,6 +35,7 @@ namesDict = {
     "Applicatio" : "ApplicantFirstName",
     "Applicant1" : "ApplicantLastName",
     "Applicat_1" : "ApplicantLastName",
+    "ApplicantLandName" : "ApplicantLastName",
     "Submission" : "ReceivedDate",
     "Site_Locat" : "SiteLocationLP",
     "Site_Loc_1" : "SiteLocationLotNo",
