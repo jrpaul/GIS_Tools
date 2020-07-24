@@ -2,7 +2,7 @@
 StandardizeFields_Applications.py
 
 Description:
-Rename fields to fit standards. 
+Rename fields to fit standards.
 
 Input:
 1) A geodatabase or folder holding with application points.
@@ -33,8 +33,8 @@ namesDict = {
     "Reference_" : "ApplicationNumber",
     "Applicant_" : "ApplicantFirstName",
     "Applicatio" : "ApplicantFirstName",
-    "Applicant1" : "ApplicantLandName",
-    "Applicat_1" : "ApplicantLandName",
+    "Applicant1" : "ApplicantLastName",
+    "Applicat_1" : "ApplicantLastName",
     "Submission" : "ReceivedDate",
     "Site_Locat" : "SiteLocationLP",
     "Site_Loc_1" : "SiteLocationLotNo",
@@ -65,7 +65,7 @@ namesDict = {
     "Transform_" : "Transform_X",
     "Transform1" : "Transform_Y",
     "TRANSFORM_" : "Transform_X",
-    "TRANSFORM1" : "Transform_Y" 
+    "TRANSFORM1" : "Transform_Y"
     }
 
 arcpy.AddMessage("Searching the folder now...")
@@ -79,10 +79,10 @@ for dirpath, dirnames, filenames in arcpy.da.Walk(inGDB, datatype="FeatureClass"
     for filename in filenames:
         ftrs.append(os.path.join(dirpath, filename))
         ftrCount = len(ftrs)
-        
+
 arcpy.AddMessage("There are {0} feature classes in the geodatabase".format(ftrCount))
 
-for ftr in ftrs:# Pass qualified ftrs to list fields  
+for ftr in ftrs:# Pass qualified ftrs to list fields
 	field_names = [f.name for f in arcpy.ListFields(ftr)]
 	# Check if listed fields are in name dict
 	for field_name in field_names:
