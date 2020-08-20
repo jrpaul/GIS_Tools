@@ -21,6 +21,7 @@ from arcpy import env
 import os
 
 inGDB = arcpy.GetParameterAsText(0) #geodatabase with features
+outGDB = arcpy.GetParameterAsText(1) #geodatabase to save outlines
 
 # Set workspace and environment variables
 arcpy.env.workspace = inGDB
@@ -42,7 +43,7 @@ completeCount = 0
 
 for fc in fclist:
     # Outpath for parcel layer copy
-    parcelOutline = os.path.join(inGDB, fc + "_" + "outline")
+    parcelOutline = os.path.join(outGDB, fc + "_" + "outline")
 
     # Check if outline exists, if exists, delete
     if arcpy.Exists(parcelOutline):
@@ -85,3 +86,15 @@ for fc in fclist:
         arcpy.AddMessage("{0} outlines complete.".format(completeCount))
 
 arcpy.ResetProgressor()
+
+arcpy.AddMessage("Copying outlines to output geodatabase....")
+
+outlineList = [ftr for ftr in arcpy.ListFeatureClasses("*", "polygon") if ftr.endswith('_outline')]
+
+try:
+	for f in outlineList:
+		arcpy.FeatureClassToGeodatabase_conversion(f, outGDB)
+except:
+	arcpy.AddMessage("Oulines {0} could not be copied to export geodatabase.".format(f))
+
+arcpy.AddMessage("Outlines copied to export geodatabase.")
