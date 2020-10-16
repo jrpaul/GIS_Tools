@@ -23,7 +23,7 @@ Checks all point features in geodatabase and renames non-standard fields.
 **AddNewXYFields.py**
 Adds two DOUBLE fields to feature class and calculates POINT_X and POINT_Y.
 
-**CheckforNULLFields.py**/**CheckforNULLFields.py**
+**CheckforNULLFields.py**
 Checks features classes for empty or null fields. 
 
 **CreateAreaDomainsSubtypes.py** and **CreateAppFilesDomains.py**
