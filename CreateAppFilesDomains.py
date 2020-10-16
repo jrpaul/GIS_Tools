@@ -135,6 +135,12 @@ regionalOfficeDict = {
 	"TRO" : "Tobago Regional Office"
 }
 
+statusDict = {
+	"E" : "Exact",
+	"A" : "Approximate",
+	"U" : "Unknown"
+}
+
 arcpy.AddMessage("Searching the workspace now...")
 
 fcList = []
@@ -224,30 +230,64 @@ except:
 	arcpy.AddMessage("Regional office domain was not created.")
 
 try:
+    # Create Policy domain
+    arcpy.CreateDomain_management(inGDB, "Policy", "Valid policy values", "TEXT", "CODED")
+    policyDomain = "Policy"
+    # Add values from Policy dict to domain
+    for code in policyDict:
+        arcpy.AddCodedValueToDomain_management(inGDB, policyDomain, code, policyDict[code])
+
+    arcpy.AddMessage("Policy domain created.")
+
+except:
+	arcpy.AddMessage("Policy domain was not created.")
+    
+try:
+    # Create Status domain
+    arcpy.CreateDomain_management(inGDB, "Status", "Valid status values", "TEXT", "CODED")
+    statusDomain = "Status"
+    # Add values from Status dict to domain
+    for code in statusDict:
+        arcpy.AddCodedValueToDomain_management(inGDB, statusDomain, code, statusDict[code])
+
+    arcpy.AddMessage("Status domain created.")
+
+except:
+	arcpy.AddMessage("Status domain was not created.")
+
+try:
     for fc in fcList:
         # Assign domains to fields
         arcpy.AssignDomainToField_management(fc, "Decision", decisionDomain)
 
-        arcpy.AddMessage("Domian applied to Decision field.")
+        arcpy.AddMessage("Domian applied to Decision field for {0}.".format(fc))
 
         arcpy.AssignDomainToField_management(fc, "PlannedLanduse", landuseDomain)
 
-        arcpy.AddMessage("Domian applied to Landuse field.")
+        arcpy.AddMessage("Domian applied to Landuse field for {0}.".format(fc))
 
         arcpy.AssignDomainToField_management(fc, "SubmissionType", submissionDomain)
 
-        arcpy.AddMessage("Domian applied to Submission type field.")
+        arcpy.AddMessage("Domian applied to Submission type field for {0}.".format(fc))
 
         arcpy.AssignDomainToField_management(fc, "DevelopmentCategory", developmentDomain)
 
-        arcpy.AddMessage("Domian applied to Development type field.")
+        arcpy.AddMessage("Domian applied to Development type field for {0}.".format(fc))
 
         arcpy.AssignDomainToField_management(fc, "SettlementArea", settlementDomain)
 
-        arcpy.AddMessage("Domian applied to Settlement area field.")
+        arcpy.AddMessage("Domian applied to Settlement area field for {0}.".format(fc))
 
         arcpy.AssignDomainToField_management(fc, "RegionalOffice", regofficeDomain)
 
-        arcpy.AddMessage("Domian applied to Regional office field.")
+        arcpy.AddMessage("Domian applied to Regional office field for {0}.".format(fc))
+        
+        arcpy.AssignDomainToField_management(fc, "Policy", policyDomain)
+        
+        arcpy.AddMessage("Domian applied to Policy field for {0}.".format(fc))
+        
+        arcpy.AssignDomainToField_management(fc, "Status", statusDomain)
+        
+        arcpy.AddMessage("Domain applied to Status field for {0}.".format(fc))
 except:
     arcpy.AddMessage("Domain was not assigned to field in {0}.".format(fc))
